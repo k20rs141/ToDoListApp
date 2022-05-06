@@ -17,7 +17,7 @@
 		9F0B55AD281AC9B200197784 /* toDoListAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B55AC281AC9B200197784 /* toDoListAppUITests.swift */; };
 		9F0B55AF281AC9B200197784 /* toDoListAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B55AE281AC9B200197784 /* toDoListAppUITestsLaunchTests.swift */; };
 		9F0B55BC281D315800197784 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B55BB281D315800197784 /* HomeView.swift */; };
-		9F0B55BF281D5F5E00197784 /* addTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B55BE281D5F5E00197784 /* addTaskView.swift */; };
+		9F0B55BF281D5F5E00197784 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B55BE281D5F5E00197784 /* AddTaskView.swift */; };
 		9F69F4BA281FBA9800FA58A0 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F69F4B9281FBA9800FA58A0 /* EditTaskView.swift */; };
 		9F83CEF52822627000F51B49 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F83CEF42822627000F51B49 /* SettingView.swift */; };
 /* End PBXBuildFile section */
@@ -53,7 +53,7 @@
 		9F0B55AC281AC9B200197784 /* toDoListAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toDoListAppUITests.swift; sourceTree = "<group>"; };
 		9F0B55AE281AC9B200197784 /* toDoListAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toDoListAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		9F0B55BB281D315800197784 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		9F0B55BE281D5F5E00197784 /* addTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addTaskView.swift; sourceTree = "<group>"; };
+		9F0B55BE281D5F5E00197784 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		9F69F4B9281FBA9800FA58A0 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 		9F83CEF42822627000F51B49 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,7 +148,7 @@
 				9F0B55BB281D315800197784 /* HomeView.swift */,
 				9F69F4B9281FBA9800FA58A0 /* EditTaskView.swift */,
 				9F83CEF42822627000F51B49 /* SettingView.swift */,
-				9F0B55BE281D5F5E00197784 /* addTaskView.swift */,
+				9F0B55BE281D5F5E00197784 /* AddTaskView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -284,7 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F0B5596281AC9B100197784 /* Persistence.swift in Sources */,
-				9F0B55BF281D5F5E00197784 /* addTaskView.swift in Sources */,
+				9F0B55BF281D5F5E00197784 /* AddTaskView.swift in Sources */,
 				9F0B558F281AC9A900197784 /* ContentView.swift in Sources */,
 				9F69F4BA281FBA9800FA58A0 /* EditTaskView.swift in Sources */,
 				9F0B558D281AC9A900197784 /* toDoListAppApp.swift in Sources */,

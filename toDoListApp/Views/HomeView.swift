@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     @State private var offset = CGFloat.zero
     @State private var closeOffset = CGFloat.zero
     @State private var openOffset = CGFloat.zero
@@ -15,10 +16,15 @@ struct HomeView: View {
     @State var showEditView = false
     
     var body: some View {
+        
         GeometryReader { geometry in
+            
             ZStack(alignment: .leading) {
+                
                 NavigationView {
+                    
                     ZStack {
+                        
                         VStack {
                             
                             Text("hello world")
@@ -34,9 +40,10 @@ struct HomeView: View {
                             Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
                         )
                     }
-                    
                     .toolbar {
+                        
                         ToolbarItem(placement: .navigationBarLeading) {
+                            
                             Button(action: {
                                 self.offset = self.openOffset
                             }) {
@@ -45,12 +52,7 @@ struct HomeView: View {
                         }
                         
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Menu {
-                                EditButton()
-                            } label: {
-                                Label("Edit", systemImage: "ellipsis")
-                                    .rotationEffect(.degrees(90))
-                            }
+                            KebabMenu()
                         }
                         
                     }
@@ -61,7 +63,7 @@ struct HomeView: View {
 //                    .edgesIgnoringSafeArea(.vertical)
                 }
                 
-                MenuView()
+                HamburgerMenu()
                     .background(Color.white)
                     .frame(width: geometry.size.width * 0.82)
                     .edgesIgnoringSafeArea(.bottom)
@@ -102,64 +104,26 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct EditButton: View {
-    @State var showEditView = false
-    @State var showAlert = false
-    var body: some View {
-        Button(role: .none, action: {
-//            showSheet = .add
-            self.showEditView.toggle()
-            
-        }) {
-            Label("リストの編集",systemImage: "pencil")
-        }
-//            Button(action: {self.showAlert.toggle()}) {
-//                    Label("リストの削除",systemImage: "trash.fill")
-//            }
-//            .alert("アラート表示", isPresented: $showAlert) {
-//                Button("破壊的", role: .destructive) {
-//                    print("破壊的ボタンが押された!")
-//                }
-//                Button("キャンセル", role: .cancel) {
-//                    print("cacelボタンが押された!")
-//                }
-//            }
-    }
-}
-
-
-struct ModalView: View {
-    @Environment(\.presentationMode) var presentation
-    
-    var body: some View {
-        NavigationView {
-            HStack {
-                Text("second view")
-            }
-            .navigationBarItems(leading: Button(action: {
-                self.presentation.wrappedValue.dismiss()
-            }) {
-                Text("閉じる")
-            })
-        }
-    }
-}
-
-struct MenuView: View {
+struct HamburgerMenu: View {
 
     @State var showSettingView = false
+    
     var body: some View {
+        
         NavigationView {
+            
             VStack(alignment: .leading, spacing: 0) {
                 
                 VStack {
+                    
                     Spacer()
                 }
-                .frame(width: .infinity, height: 10)
+                .frame(maxWidth: .infinity, maxHeight: 5)
                 
                 Divider()
                 
                 VStack {
+                    
                     Button {
                         
                     } label: {
@@ -176,6 +140,7 @@ struct MenuView: View {
                     VStack(alignment: .leading) {
                         
                         HStack {
+                            
                             Image(systemName: "list.bullet")
                                 .foregroundColor(.primary.opacity(0.4))
                             Text("リスト")
@@ -205,19 +170,8 @@ struct MenuView: View {
             .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .leading)
         }
     }
-    @ViewBuilder
+//    @ViewBuilder
     func TabButton(image: String) -> some View {
-//        NavigationLink(destination: SettingView()) {
-//
-//            HStack {
-//                Image(image)
-//                        .resizable()
-//                        .renderingMode(.template)
-//                        .aspectRatio(contentMode: .fill)
-//                        .foregroundColor(.primary)
-//                        .frame(width: 22, height: 22)
-//            }
-//        }
         
         Button {
             showSettingView.toggle()
@@ -237,11 +191,54 @@ struct MenuView: View {
     }
 }
 
+struct KebabMenu: View {
+
+    @State var showEdit = false
+    @State var showAlert = false
+    
+    var body: some View {
+        
+        VStack  {
+            
+            Menu {
+                
+                Button {
+                    self.showEdit.toggle()
+                } label: {
+                    Label("リストを編集", systemImage: "pencil")
+                }
+                
+                Button {
+                    self.showAlert.toggle()
+                } label: {
+                    Label("リストを削除", systemImage: "trash")
+                }
+            } label: {
+                Image(systemName: "ellipsis")
+                    .rotationEffect(.degrees(90))
+            }
+        }
+        .sheet(isPresented: $showEdit) {
+            EditTaskView()
+        }
+        
+        .alert("このリストを削除しますか？", isPresented: $showAlert) {
+            Button("削除", role: .destructive) {
+                
+            }
+        } message: {
+           Text("この操作によりリストが削除されます。")
+        }
+    }
+}
+
 struct AddTaskButton: View {
+    
     @State private var showAddTaskView = false
     
     var body: some View {
         ZStack {
+            
             Button {
                 showAddTaskView.toggle()
             } label: {
@@ -256,8 +253,7 @@ struct AddTaskButton: View {
                     .frame(width: 80, height: 80)
             )
             .sheet(isPresented: $showAddTaskView) {
-                addTaskView()
-//                Text("success")
+                AddTaskView()
             }
             .padding(.trailing, 40)
             .padding(.bottom, 10)
@@ -266,19 +262,3 @@ struct AddTaskButton: View {
         .padding()
     }
 }
-
-//struct SettingView: View {
-//    var body: some View {
-//            
-//        VStack(spacing: 30) {
-//            VStack {
-//                Text("設定")
-//                    .font(.largeTitle)
-//            }
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-//        .background(
-//            Color(red: 0.965, green: 0.965, blue: 0.965)
-//        )
-//    }
-//}
