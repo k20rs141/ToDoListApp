@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SettingView: View {
+    
+    @State private var flag = false
+    
     var body: some View {
         VStack(spacing: 0) {
             
@@ -16,40 +19,49 @@ struct SettingView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
             }
-            .frame(maxWidth: .infinity, maxHeight: 40, alignment: .leading)
-            .padding(.top, 80)
+            .frame(maxWidth: .infinity, maxHeight: 60, alignment: .leading)
+            .padding(.top, 50)
             .padding(.horizontal, 30)
             
             NavigationView {
-                List {
-                    Section {
-                        Text("外観モード")
-                        Text("通知")
-                    } header: {
-                        Text("ユーザー")
-                    }
-                    .foregroundColor(.primary)
+
+                VStack {
                     
-                    Section {
-                        Text("利用規約")
-                        Text("プライバシーポリシー")
-                        Text("お問い合わせ")
-                        Text("FAQ")
-                    } header: {
-                        Text("アプリ情報")
+                    List {
+                       
+                        Section {
+                            Text("アカウント")
+                            Text("通知")
+                        } header: {
+                            Text("ユーザー")
+                        }
+                        .foregroundColor(.primary)
+                        
+                        Section {
+                            Text("利用規約")
+                            Text("プライバシーポリシー")
+                            Text("お問い合わせ")
+                            Text("FAQ")
+                        } header: {
+                            Text("アプリ情報")
+                        }
+                        .foregroundColor(.primary)
+                        
+                        Section {
+                            Text("文字サイズ")
+                            Text("リスト色")
+                            
+                            Toggle(isOn: $flag) {
+                                Text("ナイトモード")
+                            }
+                        } header: {
+                            Text("テーマ・カラー")
+                        }
+                        .foregroundColor(.primary)
                     }
-                    .foregroundColor(.primary)
-                    
-                    Section {
-                        Text("文字サイズ")
-                        Text("リスト色")
-                        Text("外観モード")
-                    } header: {
-                        Text("テーマ・カラー")
-                    }
-                    .foregroundColor(.primary)
+                    .listStyle(.insetGrouped)
                 }
-                .listStyle(.insetGrouped)
+                .frame(height: 750)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
