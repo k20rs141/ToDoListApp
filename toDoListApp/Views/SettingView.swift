@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingView: View {
-    
-    @State private var flag = false
+    //NightModeの切り替え
+    @State private var nightMode = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -51,7 +51,7 @@ struct SettingView: View {
                             Text("文字サイズ")
                             Text("リスト色")
                             
-                            Toggle(isOn: $flag) {
+                            Toggle(isOn: $nightMode) {
                                 Text("ナイトモード")
                             }
                         } header: {
