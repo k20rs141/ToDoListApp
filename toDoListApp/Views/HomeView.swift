@@ -9,6 +9,12 @@ import SwiftUI
 
 struct HomeView: View {
     
+//    @Environment(\.managedObjectContext) var viewContext
+    
+    //データの取得
+    @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: false)], animation: .easeInOut) var tasks: FetchedResults<Task>
+    
+    //サイドビューのプロパティ
     @State private var offset = CGFloat.zero
     @State private var closeOffset = CGFloat.zero
     @State private var openOffset = CGFloat.zero
@@ -24,21 +30,36 @@ struct HomeView: View {
                 NavigationView {
                     
                     ZStack {
-                        
+//                        ScrollView {
+
+                        //リスト表示画面
                         VStack {
                             
-                            Text("hello world")
-                            Text("hello world")
-                            
-                            Spacer()
+                            List {
+//
+//                                        ForEach(self.tasks, id: \.self) { task in
+//                                            HStack {
+//                                                Text(task.name ?? "nil")
+//
+//                                                Spacer()
+//
+//                                                Text(task.priority ?? "nil")
+//                                            }
+//                                        }
+                                ForEach(0..<30) { _ in
+                                    Text("hello world")
+                                }
+                            }
+                            .listStyle(.plain)
                             
                             AddTaskButton()
                         }
-//                        .frame(maxWidth: .infinity,maxHeight: .infinity)
+                        .frame(maxWidth: .infinity,maxHeight: .infinity)
                         .background(Color.gray.opacity(Double(0.3)))
                         Color.gray.opacity(
                             Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
                         )
+//                        }
                     }
                     .toolbar {
                         
@@ -130,7 +151,7 @@ struct HamburgerMenu: View {
                         Label("全てのリスト", systemImage: "list.bullet.rectangle")
                     }
                 }
-                .padding(.horizontal, 40)
+                .padding(.horizontal, 10)
                 .padding(.vertical, 25)
                 
                 Divider()
@@ -155,6 +176,7 @@ struct HamburgerMenu: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 15)
+                    .padding(.horizontal, 10)
                 }
                 .frame(maxWidth: .infinity, maxHeight: 600)
 
@@ -170,7 +192,7 @@ struct HamburgerMenu: View {
             .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .leading)
         }
     }
-//    @ViewBuilder
+    @ViewBuilder
     func TabButton(image: String) -> some View {
         
         Button {
@@ -234,10 +256,12 @@ struct KebabMenu: View {
 
 struct AddTaskButton: View {
     
+    @Environment(\.managedObjectContext) var viewContext
+    
     @State private var showAddTaskView = false
     
     var body: some View {
-        ZStack {
+//        ZStack {
             
             Button {
                 showAddTaskView.toggle()
@@ -253,12 +277,10 @@ struct AddTaskButton: View {
                     .frame(width: 80, height: 80)
             )
             .sheet(isPresented: $showAddTaskView) {
-                AddTaskView()
+                AddTaskView().environment(\.managedObjectContext, self.viewContext)
             }
-            .padding(.trailing, 40)
-            .padding(.bottom, 10)
-        }
-        .frame(maxWidth: .infinity,alignment: .trailing)
-        .padding()
+//        }
+//        .frame(width: 80, height: 80, alignment: .trailing)
+//        .background(.black)
     }
 }
