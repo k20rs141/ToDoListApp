@@ -9,12 +9,15 @@ import SwiftUI
 
 struct AddTaskView: View {
 
+    @Environment(\.managedObjectContext) var viewContext
     @Environment(\.presentationMode) var presentationMode
     
     @State var name: String = ""
-    @State var priority: String = "Normal"
+    @State var priority: String = "なし"
     
-    let priorities = ["high", "normal", "low"]
+    let priorities = ["低", "中", "高"]
+    
+    @State var errorShow: Bool = false
     
     var body: some View {
 
@@ -24,45 +27,22 @@ struct AddTaskView: View {
                 
                 VStack(alignment: .leading, spacing: 0) {
                     
-//                    HStack {
-//
-//                        Image(systemName: "eyedropper")
-//
-//                        let colors: [String] = ["orange","red","purple","blue","green","yellow"]
-//
-//                        HStack (spacing: 15) {
-//                            ForEach(colors,id: \.self) { color in
-//                                Circle()
-//                                    .fill(Color(color))
-//                                    .frame(width: 25, height: 25)
-//                                    .background(
-//                                        taskModel.taskColor == color {
-//                                            Circle()
-//                                                .strokeBorder(.gray)
-//                                                .padding(-3)
-//                                        }
-//                                    )
-//                                    .contentShape(Circle())
-//                                    .onTapGesture {
-//                                        taskModel.taskColor = color
-//                                    }
-//                            }
-//                        }
-//                    }
-                    
                     Form {
-                        //リストの名前
-                        TextField("リスト", text: $name)
                         
-                        //選択ボタン
-                        Picker("Priority", selection: $priority) {
-                            ForEach(priorities, id: \.self) {
-                                Text($0)
+                        Section {
+                            //リストの名前
+                            HStack {
+                                TextField("リスト", text: $name)
+                            }
+                            //選択ボタン
+                            HStack {
+                                Picker(selection: $priority, label: Text("優先順位")) {
+                                    ForEach(priorities, id: \.self) {
+                                        Text($0)
+                                    }
+                                }
                             }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
-                        
-
                     }
                 }
             }
@@ -71,11 +51,17 @@ struct AddTaskView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     
                     //保存ボタン
-                    Button {
-                        print("保存されました。")
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("追加")
+                    Button(action: {
+                        addTask()
+                    }) {
+//                        Text("追加")
+                        Image(systemName: "plus")
+                    }
+                    //
+                    .alert("リストが入力されていません", isPresented: $errorShow) {
+                        Button("了解") {
+                            
+                        }
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -83,13 +69,34 @@ struct AddTaskView: View {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Text("キャンセル")
+//                        Text("キャンセル")
+                        Image(systemName: "xmark")
+                            
                     }
                 }
             }
             .navigationTitle("新規タスク")
             .navigationBarTitleDisplayMode(.inline)
         }
+    }
+    
+    func addTask() {
+        if self.name != "" {
+            let task = Task(context: self.viewContext)
+            task.name = self.name
+            task.priority = self.priority
+            
+            do {
+                try self.viewContext.save()
+                print("リスト: \(task.name ?? ""), 優先順位: \(task.priority ?? "")")
+            } catch {
+                print(error)
+            }
+        } else {
+            self.errorShow = true
+            return
+        }
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
