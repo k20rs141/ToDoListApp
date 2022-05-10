@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-//    @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.managedObjectContext) var viewContext
     
     //データの取得
     @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: false)], animation: .easeInOut) var tasks: FetchedResults<Task>
@@ -46,6 +46,7 @@ struct HomeView: View {
                                         .frame(height: 50)
                                         .padding(.horizontal, 20)
                                     }
+                                    .onDelete(perform: deleteTask)
                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                     .padding(.vertical, 3)
                                 }
@@ -116,6 +117,19 @@ struct HomeView: View {
                    }
                 }
             )
+        }
+    }
+    
+    
+    func deleteTask(offsets: IndexSet) {
+        for index in offsets {
+            self.viewContext.delete(tasks[index])
+        }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print(error)
         }
     }
 }
@@ -193,6 +207,7 @@ struct HamburgerMenu: View {
             .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .leading)
         }
     }
+    
     @ViewBuilder
     func TabButton(image: String) -> some View {
         
