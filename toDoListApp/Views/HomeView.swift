@@ -30,45 +30,40 @@ struct HomeView: View {
                 NavigationView {
                     
                     ZStack {
-                        
-                        ScrollView(.vertical) {
-                            //リスト表示画面
-                            VStack {
-                        
-                                ForEach(self.tasks, id: \.self) { task in
-                                    HStack {
-                                        Text(task.name ?? "nil")
+ 
+                            ScrollView(.vertical) {
+                                //リスト表示画面
+                                VStack {
+                            
+                                    ForEach(self.tasks, id: \.self) { task in
+                                        HStack {
+                                            Text(task.name ?? "nil")
 
-                                        Spacer()
+                                            Spacer()
 
-                                        Text(task.priority ?? "nil")
+                                            Text(task.priority ?? "nil")
+                                        }
+                                        .frame(height: 50)
+                                        .padding(.horizontal, 20)
                                     }
-                                    .frame(height: 50)
-                                    .padding(.horizontal, 20)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .padding(.vertical, 3)
                                 }
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .padding(.vertical, 3)
+                                Color.gray.opacity(
+                                    Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
+                                )
                             }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.gray.opacity(Double(0.2)))
-                            Color.gray.opacity(
-                                Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
-                            )
-                        }
-                        
-                        VStack {
-                            
-                            Spacer()
-                            HStack {
-                                
+
+                            VStack {
                                 
                                 AddTaskButton()
-
+                                    
                             }
-//                            .frame(maxWidth: .infinity, maxHeight: 80)
-                        }
-//                        .frame(maxWidth: 80, maxHeight: 80)
-//                        .background(.cyan.opacity(0.4))
+                            .frame(width: 80, height: 80)
+                            .background(.cyan.opacity(0.4))
+                            //新規ボタンの位置変更
+                            .offset(x: 120, y: 310)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .toolbar {
