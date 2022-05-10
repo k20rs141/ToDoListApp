@@ -26,41 +26,51 @@ struct HomeView: View {
         GeometryReader { geometry in
             
             ZStack(alignment: .leading) {
-                
+
                 NavigationView {
                     
                     ZStack {
-//                        ScrollView {
+                        
+                        ScrollView(.vertical) {
+                            //リスト表示画面
+                            VStack {
+                        
+                                ForEach(self.tasks, id: \.self) { task in
+                                    HStack {
+                                        Text(task.name ?? "nil")
 
-                        //リスト表示画面
+                                        Spacer()
+
+                                        Text(task.priority ?? "nil")
+                                    }
+                                    .frame(height: 50)
+                                    .padding(.horizontal, 20)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding(.vertical, 3)
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color.gray.opacity(Double(0.2)))
+                            Color.gray.opacity(
+                                Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
+                            )
+                        }
+                        
                         VStack {
                             
-                            List {
-//
-//                                        ForEach(self.tasks, id: \.self) { task in
-//                                            HStack {
-//                                                Text(task.name ?? "nil")
-//
-//                                                Spacer()
-//
-//                                                Text(task.priority ?? "nil")
-//                                            }
-//                                        }
-                                ForEach(0..<30) { _ in
-                                    Text("hello world")
-                                }
+                            Spacer()
+                            HStack {
+                                
+                                
+                                AddTaskButton()
+
                             }
-                            .listStyle(.plain)
-                            
-                            AddTaskButton()
+//                            .frame(maxWidth: .infinity, maxHeight: 80)
                         }
-                        .frame(maxWidth: .infinity,maxHeight: .infinity)
-                        .background(Color.gray.opacity(Double(0.3)))
-                        Color.gray.opacity(
-                            Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
-                        )
-//                        }
+//                        .frame(maxWidth: 80, maxHeight: 80)
+//                        .background(.cyan.opacity(0.4))
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .toolbar {
                         
                         ToolbarItem(placement: .navigationBarLeading) {
@@ -78,10 +88,8 @@ struct HomeView: View {
                         
                     }
                     .navigationBarTitleDisplayMode(.inline)
-                    .background(Color.gray.opacity(0.1))
-//                    .edgesIgnoringSafeArea(.bottom)
-                    .frame(maxWidth: .infinity, maxHeight: 700)
-//                    .edgesIgnoringSafeArea(.vertical)
+//                    .background(Color.blue.opacity(0.9))
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 
                 HamburgerMenu()
@@ -96,8 +104,6 @@ struct HomeView: View {
                     .offset(x: self.offset)
                     
                     .animation(.default, value: self.offset)
-                
-                
             }
             
             .gesture(DragGesture(minimumDistance: 5)
@@ -167,12 +173,12 @@ struct HamburgerMenu: View {
                             Text("リスト")
                                 .foregroundColor(.primary.opacity(0.4))
                         }
-                        HStack {
-                            
+                        Divider()
+                        
+                        ForEach(0..<50) { _ in
+                            Text("hello world")
                         }
-                        HStack {
-                            
-                        }
+                        .padding()
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.vertical, 15)
@@ -261,26 +267,18 @@ struct AddTaskButton: View {
     @State private var showAddTaskView = false
     
     var body: some View {
-//        ZStack {
-            
+
             Button {
                 showAddTaskView.toggle()
             } label: {
-                Image(systemName: "plus")
-                    .foregroundColor(.white)
-                    .font(.system(size: 50))
-                    .shadow(color: .black, radius: 30, x: 10, y: 10)
-            }
-            .background(
-                Color(red: 0.133, green: 0.537, blue: 0.898)
-                    .cornerRadius(50)
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
                     .frame(width: 80, height: 80)
-            )
+                    .padding()
+//                    .shadow(color: , radius: , x: , y: )
+            }
             .sheet(isPresented: $showAddTaskView) {
                 AddTaskView().environment(\.managedObjectContext, self.viewContext)
             }
-//        }
-//        .frame(width: 80, height: 80, alignment: .trailing)
-//        .background(.black)
     }
 }
