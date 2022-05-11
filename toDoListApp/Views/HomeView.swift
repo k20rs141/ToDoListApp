@@ -7,12 +7,155 @@
 
 import SwiftUI
 
+//struct HomeView: View {
+//
+//    @Environment(\.managedObjectContext) var viewContext
+//
+//    //データの取得
+//    @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: true)], animation: .easeInOut) var tasks: FetchedResults<Task>
+//
+//    //サイドビューのプロパティ
+//    @State private var offset = CGFloat.zero
+//    @State private var closeOffset = CGFloat.zero
+//    @State private var openOffset = CGFloat.zero
+//
+//    @State var showEditView = false
+//
+//    var body: some View {
+//
+//        GeometryReader { geometry in
+//
+//            ZStack(alignment: .leading) {
+//
+//                NavigationView {
+//
+//                    ZStack {
+//
+//                        ScrollView {
+//                            //リスト表示画面
+//                            VStack {
+//
+//                                ForEach(self.tasks, id: \.self) { task in
+//                                    HStack {
+//                                        Text(task.name ?? "nil")
+//
+//                                        Spacer()
+//
+//                                        Text(task.priority ?? "nil")
+//                                    }
+//                                    .frame(height: 50)
+//                                    .padding(.horizontal, 20)
+//                                }
+//                                .onDelete(perform: deleteTask)
+//                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                                .padding(.vertical, 3)
+//                            }
+//                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                            Color.gray.opacity(
+//                                Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
+//                            )
+//                        }
+//
+//                        VStack {
+//
+//                            AddTaskButton()
+//
+//                        }
+//                        .frame(width: 80, height: 80)
+//                        //新規ボタンの位置変更
+//                        .offset(x: 120, y: 310)
+//                    }
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    .toolbar {
+//
+//                        ToolbarItem(placement: .navigationBarLeading) {
+//
+//                            Button(action: {
+//                                self.offset = self.openOffset
+//                            }) {
+//                                Image(systemName: "line.horizontal.3")
+//                            }
+//                        }
+//
+//                        ToolbarItem(placement: .navigationBarTrailing) {
+//                            KebabMenu()
+//                        }
+//
+//                    }
+//                    .navigationBarTitleDisplayMode(.inline)
+////                    .background(Color.blue.opacity(0.9))
+////                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                }
+//
+//                HamburgerMenu()
+//                    .background(Color.white)
+//                    .frame(width: geometry.size.width * 0.82)
+//                    .edgesIgnoringSafeArea(.bottom)
+//                    .onAppear(perform: {
+//                        self.offset = geometry.size.width * -1
+//                        self.closeOffset = self.offset
+//                        self.openOffset = .zero
+//                    })
+//                    .offset(x: self.offset)
+//
+//                    .animation(.default, value: self.offset)
+//            }
+//
+//            .gesture(DragGesture(minimumDistance: 5)
+//                .onChanged { value in
+//                    if (self.offset < self.openOffset) {
+//                        self.offset = self.closeOffset + value.translation.width
+//                    }
+//                }
+//                .onEnded { value in
+//                    if (value.location.x > value.startLocation.x) {
+//                        self.offset = self.openOffset
+//                    }
+//                    else {
+//                        self.offset = self.closeOffset
+//                   }
+//                }
+//            )
+//        }
+//    }
+//
+//
+//    func deleteTask(offsets: IndexSet) {
+//        for index in offsets {
+//            viewContext.delete(tasks[index])
+//        }
+//
+//        do {
+//            try viewContext.save()
+//            print("成功")
+//        } catch {
+//            print(error)
+//        }
+//    }
+//
+//    private func deleteTask(offsets: IndexSet) {
+//        withAnimation {
+//            offsets.map { tasks[$0] }.forEach(viewContext.delete)
+//
+//            do {
+//                try viewContext.save()
+//            } catch {
+//                // Replace this implementation with code to handle the error appropriately.
+//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//                let nsError = error as NSError
+//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//            }
+//        }
+//    }
+//
+//}
+
 struct HomeView: View {
     
     @Environment(\.managedObjectContext) var viewContext
-    
+
     //データの取得
-    @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: false)], animation: .easeInOut) var tasks: FetchedResults<Task>
+    @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: true)], animation: .easeInOut) var tasks: FetchedResults<Task>
     
     //サイドビューのプロパティ
     @State private var offset = CGFloat.zero
@@ -28,45 +171,27 @@ struct HomeView: View {
             ZStack(alignment: .leading) {
 
                 NavigationView {
-                    
-                    ZStack {
- 
-                            ScrollView(.vertical) {
-                                //リスト表示画面
-                                VStack {
+            
+                    List{
+                        
+                        ForEach(self.tasks, id: \.self) { task in
                             
-                                    ForEach(self.tasks, id: \.self) { task in
-                                        HStack {
-                                            Text(task.name ?? "nil")
+                           HStack {
+                               Text(task.name ?? "nil")
 
-                                            Spacer()
+                               Spacer()
 
-                                            Text(task.priority ?? "nil")
-                                        }
-                                        .frame(height: 50)
-                                        .padding(.horizontal, 20)
-                                    }
-                                    .onDelete(perform: deleteTask)
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                    .padding(.vertical, 3)
-                                }
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                Color.gray.opacity(
-                                    Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
-                                )
-                            }
-
-                            VStack {
-                                
-                                AddTaskButton()
-                                    
-                            }
-                            .frame(width: 80, height: 80)
-                            .background(.cyan.opacity(0.4))
-                            //新規ボタンの位置変更
-                            .offset(x: 120, y: 310)
+                               Text(task.priority ?? "nil")
+                           }
+                           .frame(height: 50)
+                           .padding(.horizontal, 20)
+                        }
+                        .onDelete(perform: deleteTask)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .padding(.vertical, 3)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .listStyle(.plain)
+//                    .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         
                         ToolbarItem(placement: .navigationBarLeading) {
@@ -83,9 +208,16 @@ struct HomeView: View {
                         }
                         
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-//                    .background(Color.blue.opacity(0.9))
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Color.gray.opacity(
+                        Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
+                    )
+                }
+                
+                ZStack {
+                    AddTaskButton()
+                        .frame(width: 80, height: 80)
+                        //新規ボタンの位置変更
+                        .offset(x: 280, y: 340)
                 }
                 
                 HamburgerMenu()
@@ -98,45 +230,47 @@ struct HomeView: View {
                         self.openOffset = .zero
                     })
                     .offset(x: self.offset)
-                    
+
                     .animation(.default, value: self.offset)
             }
             
-            .gesture(DragGesture(minimumDistance: 5)
-                .onChanged { value in
-                    if (self.offset < self.openOffset) {
-                        self.offset = self.closeOffset + value.translation.width
-                    }
-                }
-                .onEnded { value in
-                    if (value.location.x > value.startLocation.x) {
-                        self.offset = self.openOffset
-                    }
-                    else {
-                        self.offset = self.closeOffset
-                   }
-                }
-            )
+//            .gesture(DragGesture(minimumDistance: 5)
+//                .onChanged { value in
+//                    if (self.offset < self.openOffset) {
+//                        self.offset = self.closeOffset + value.translation.width
+//                    }
+//                }
+//                .onEnded { value in
+//                    if (value.location.x > value.startLocation.x) {
+//                        self.offset = self.openOffset
+//                    }
+//                    else {
+//                        self.offset = self.closeOffset
+//                   }
+//                }
+//            )
         }
     }
     
+    private func deleteTask(offsets: IndexSet) {
+            withAnimation {
+                offsets.map { tasks[$0] }.forEach(viewContext.delete)
     
-    func deleteTask(offsets: IndexSet) {
-        for index in offsets {
-            self.viewContext.delete(tasks[index])
+                do {
+                    try viewContext.save()
+                } catch {
+                    let nsError = error as NSError
+                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                }
+            }
         }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print(error)
-        }
-    }
+
 }
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        ContentView()
     }
 }
 
@@ -184,9 +318,9 @@ struct HamburgerMenu: View {
                         }
                         Divider()
                         
-                        ForEach(0..<50) { _ in
-                            Text("hello world")
-                        }
+//                        ForEach(0..<50) { _ in
+//                            Text("hello world")
+//                        }
                         .padding()
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
