@@ -54,10 +54,9 @@ struct AddTaskView: View {
                     Button(action: {
                         addTask()
                     }) {
-//                        Text("追加")
+                        
                         Image(systemName: "plus")
                     }
-                    //
                     .alert("リストが入力されていません", isPresented: $errorShow) {
                         Button("了解") {
                             
@@ -69,7 +68,7 @@ struct AddTaskView: View {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-//                        Text("キャンセル")
+                        
                         Image(systemName: "xmark")
                             
                     }
