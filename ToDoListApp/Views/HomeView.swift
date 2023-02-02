@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  toDoListApp
-//
-//  Created by 山田滉暁 on 2022/04/30.
-//
-
 import SwiftUI
 
 struct HomeView: View {
@@ -126,7 +119,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HomeView()
     }
 }
 

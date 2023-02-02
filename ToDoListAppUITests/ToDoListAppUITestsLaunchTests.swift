@@ -1,13 +1,6 @@
-//
-//  toDoListAppUITestsLaunchTests.swift
-//  toDoListAppUITests
-//
-//  Created by 山田滉暁 on 2022/04/28.
-//
-
 import XCTest
 
-class toDoListAppUITestsLaunchTests: XCTestCase {
+class ToDoListAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

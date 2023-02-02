@@ -1,10 +1,3 @@
-//
-//  addTaskView.swift
-//  toDoListApp
-//
-//  Created by 山田滉暁 on 2022/04/30.
-//
-
 import SwiftUI
 
 struct AddTaskView: View {

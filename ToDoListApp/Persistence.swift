@@ -1,10 +1,3 @@
-//
-//  Persistence.swift
-//  toDoListApp
-//
-//  Created by 山田滉暁 on 2022/04/28.
-//
-
 import CoreData
 
 struct PersistenceController {
@@ -32,7 +25,7 @@ struct PersistenceController {
     let container: NSPersistentCloudKitContainer
 
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "toDoListApp")
+        container = NSPersistentCloudKitContainer(name: "ToDoListApp")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }

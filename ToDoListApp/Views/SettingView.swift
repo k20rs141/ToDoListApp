@@ -1,10 +1,3 @@
-//
-//  SettingView.swift
-//  toDoListApp
-//
-//  Created by 山田滉暁 on 2022/05/04.
-//
-
 import SwiftUI
 
 struct SettingView: View {

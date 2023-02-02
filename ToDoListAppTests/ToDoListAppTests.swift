@@ -1,14 +1,7 @@
-//
-//  toDoListAppTests.swift
-//  toDoListAppTests
-//
-//  Created by 山田滉暁 on 2022/04/28.
-//
-
 import XCTest
-@testable import toDoListApp
+@testable import ToDoListApp
 
-class toDoListAppTests: XCTestCase {
+class ToDoListAppTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
