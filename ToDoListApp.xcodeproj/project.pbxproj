@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662964D1298BFCAD0093849B /* DarkModeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662964D0298BFCAD0093849B /* DarkModeSetting.swift */; };
+		662964D4298C09A20093849B /* KebabMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662964D3298C09A10093849B /* KebabMenu.swift */; };
+		662964D6298C09DE0093849B /* HamburgerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662964D5298C09DE0093849B /* HamburgerMenu.swift */; };
 		9F0B558D281AC9A900197784 /* ToDoListAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0B558C281AC9A900197784 /* ToDoListAppApp.swift */; };
 		9F0B5591281AC9B100197784 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B5590281AC9B100197784 /* Assets.xcassets */; };
 		9F0B5594281AC9B100197784 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F0B5593281AC9B100197784 /* Preview Assets.xcassets */; };
@@ -39,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		662964D0298BFCAD0093849B /* DarkModeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkModeSetting.swift; sourceTree = "<group>"; };
+		662964D2298BFEDD0093849B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		662964D3298C09A10093849B /* KebabMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KebabMenu.swift; sourceTree = "<group>"; };
+		662964D5298C09DE0093849B /* HamburgerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerMenu.swift; sourceTree = "<group>"; };
 		9F0B5589281AC9A900197784 /* ToDoListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F0B558C281AC9A900197784 /* ToDoListAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListAppApp.swift; sourceTree = "<group>"; };
 		9F0B5590281AC9B100197784 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,9 +111,11 @@
 		9F0B558B281AC9A900197784 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
+				662964D2298BFEDD0093849B /* Info.plist */,
 				9F0B558C281AC9A900197784 /* ToDoListAppApp.swift */,
-				9F0B55BD281D5F1E00197784 /* Views */,
+				662964D0298BFCAD0093849B /* DarkModeSetting.swift */,
 				9F0B5595281AC9B100197784 /* Persistence.swift */,
+				9F0B55BD281D5F1E00197784 /* Views */,
 				9F0B5597281AC9B100197784 /* ToDoListApp.xcdatamodeld */,
 				9F0B5590281AC9B100197784 /* Assets.xcassets */,
 				9F0B5592281AC9B100197784 /* Preview Content */,
@@ -143,6 +152,8 @@
 			isa = PBXGroup;
 			children = (
 				9F0B55BB281D315800197784 /* HomeView.swift */,
+				662964D5298C09DE0093849B /* HamburgerMenu.swift */,
+				662964D3298C09A10093849B /* KebabMenu.swift */,
 				9F69F4B9281FBA9800FA58A0 /* EditTaskView.swift */,
 				9F83CEF42822627000F51B49 /* SettingView.swift */,
 				9F0B55BE281D5F5E00197784 /* AddTaskView.swift */,
@@ -282,11 +293,14 @@
 			files = (
 				9F0B5596281AC9B100197784 /* Persistence.swift in Sources */,
 				9F0B55BF281D5F5E00197784 /* AddTaskView.swift in Sources */,
+				662964D6298C09DE0093849B /* HamburgerMenu.swift in Sources */,
 				9F69F4BA281FBA9800FA58A0 /* EditTaskView.swift in Sources */,
 				9F0B558D281AC9A900197784 /* ToDoListAppApp.swift in Sources */,
 				9F83CEF52822627000F51B49 /* SettingView.swift in Sources */,
+				662964D1298BFCAD0093849B /* DarkModeSetting.swift in Sources */,
 				9F0B55BC281D315800197784 /* HomeView.swift in Sources */,
 				9F0B5599281AC9B100197784 /* ToDoListApp.xcdatamodeld in Sources */,
+				662964D4298C09A20093849B /* KebabMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +462,7 @@
 				DEVELOPMENT_TEAM = CK8NZGW62V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ToDoListApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -478,6 +493,7 @@
 				DEVELOPMENT_TEAM = CK8NZGW62V;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ToDoListApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
