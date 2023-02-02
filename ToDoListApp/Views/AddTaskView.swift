@@ -1,27 +1,18 @@
 import SwiftUI
 
 struct AddTaskView: View {
-
     @Environment(\.managedObjectContext) var viewContext
-    @Environment(\.presentationMode) var presentationMode
-    
-    @State var name: String = ""
-    @State var priority: String = "なし"
-    
+    @Environment(\.dismiss) private var dismiss
+    @State private var name: String = ""
+    @State private var priority: String = "なし"
+    @State private var errorShow: Bool = false
     let priorities = ["低", "中", "高"]
     
-    @State var errorShow: Bool = false
-    
     var body: some View {
-
         NavigationView {
-            
             VStack {
-                
                 VStack(alignment: .leading, spacing: 0) {
-                    
                     Form {
-                        
                         Section {
                             //リストの名前
                             HStack {
@@ -40,14 +31,11 @@ struct AddTaskView: View {
                 }
             }
             .toolbar {
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    
                     //保存ボタン
                     Button(action: {
                         addTask()
                     }) {
-                        
                         Image(systemName: "plus")
                     }
                     .alert("リストが入力されていません", isPresented: $errorShow) {
@@ -57,13 +45,10 @@ struct AddTaskView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
-                        
                         Image(systemName: "xmark")
-                            
                     }
                 }
             }
@@ -80,7 +65,6 @@ struct AddTaskView: View {
             
             do {
                 try self.viewContext.save()
-                print("リスト: \(task.name ?? ""), 優先順位: \(task.priority ?? "")")
             } catch {
                 print(error)
             }
@@ -88,7 +72,7 @@ struct AddTaskView: View {
             self.errorShow = true
             return
         }
-        presentationMode.wrappedValue.dismiss()
+        dismiss()
     }
 }
 
