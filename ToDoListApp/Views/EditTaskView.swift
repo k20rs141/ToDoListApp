@@ -1,30 +1,24 @@
 import SwiftUI
 
 struct EditTaskView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-
         NavigationView {
-            
             ZStack {
-                
                 Text("EditView")
             }
             .toolbar {
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Text("完了")
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     } label: {
                         Text("キャンセル")
                     }
