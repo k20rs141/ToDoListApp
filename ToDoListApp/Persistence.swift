@@ -6,16 +6,17 @@ struct PersistenceController {
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
-        for _ in 0..<10 {
+        // Preview用初期値の設定
+        for _ in 0 ..< 10 {
             let task = Task(context: viewContext)
             task.name = "hello world"
+            task.checked = false
             task.priority = "高"
         }
         do {
             try viewContext.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            // fatalError()によりクラッシュログを生成（リリースするアプリケーションには使用しない方が良い）
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
@@ -24,6 +25,7 @@ struct PersistenceController {
 
     let container: NSPersistentCloudKitContainer
 
+    // メモリ上でデータ管理を行う
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "ToDoListApp")
         if inMemory {
@@ -31,10 +33,7 @@ struct PersistenceController {
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-
-                /*
+                 /*
                  Typical reasons for an error here include:
                  * The parent directory does not exist, cannot be created, or disallows writing.
                  * The persistent store is not accessible, due to permissions or data protection when the device is locked.
@@ -45,6 +44,7 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+         // persistentStoreCoordinator又はparentContextの保存された変更を自動的にマージするか
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
