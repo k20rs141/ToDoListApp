@@ -1,32 +1,28 @@
 import SwiftUI
 
 struct HomeView: View {
-    
-    @Environment(\.managedObjectContext) var viewContext
-
-    //データの取得
+    // データの取得
     @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.name, ascending: true)], animation: .easeInOut) var tasks: FetchedResults<Task>
-    
-    //サイドビュー
-    @State private var offset = CGFloat.zero
-    @State private var closeOffset = CGFloat.zero
-    @State private var openOffset = CGFloat.zero
-    
-    @State var showHamburgerMenu = false
+    @Environment(\.managedObjectContext) var viewContext
+    // SideView
+    @State private var width = UIScreen.main.bounds.width - 90
+    @State private var x = -UIScreen.main.bounds.width + 90
     
     var body: some View {
-        
-        GeometryReader { geometry in
-            
             ZStack(alignment: .leading) {
-
                 NavigationView {
-            
                     List{
-                        
                         ForEach(self.tasks, id: \.self) { task in
-                            
                            HStack {
+                               Image(systemName: task.checked ? "checkmark.circle.fill" : "circle")
+                                   .font(.system(size: 26))
+                                   .foregroundColor(.primary)
+                                   .onTapGesture {
+                                       task.checked.toggle()
+                                       try? viewContext.save()
+                                       UIImpactFeedbackGenerator(style: .medium)
+                                           .impactOccurred()
+                                   }
                                Text(task.name ?? "nil")
 
                                Spacer()
@@ -34,88 +30,82 @@ struct HomeView: View {
                                Text(task.priority ?? "nil")
                            }
                            .frame(height: 50)
-                           .padding(.horizontal, 20)
+                           .padding(.horizontal, 10)
                         }
                         .onDelete(perform: deleteTask)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(.vertical, 3)
                     }
                     .listStyle(.plain)
-                    
                     .toolbar {
-                        
                         ToolbarItem(placement: .navigationBarLeading) {
-                            
                             Button(action: {
-                                self.offset = self.openOffset
+                                withAnimation(.easeInOut(duration: 0.7)) {
+                                    x = 0
+                                }
                             }) {
                                 Image(systemName: "line.horizontal.3")
                             }
                         }
-                        
                         ToolbarItem(placement: .navigationBarTrailing) {
                             KebabMenu()
                         }
                     }
-                    Color.gray.opacity(
-                        Double((self.closeOffset - self.offset) / self.closeOffset) - 0.4
-                    )
                 }
-                
                 ZStack {
                     AddTaskButton()
                         .frame(width: 80, height: 80)
                         //新規ボタンの位置変更
-                        .offset(x: 280, y: 340)
+                        .offset(x: UIScreen.main.bounds.width * 0.73, y: UIScreen.main.bounds.height * 0.39)
                 }
-                
                 HamburgerMenu()
-                    .background(Color.white)
-                    .frame(width: geometry.size.width * 0.82)
-                    .edgesIgnoringSafeArea(.bottom)
-                    .onAppear(perform: {
-                        self.offset = geometry.size.width * -1
-                        self.closeOffset = self.offset
-                        self.openOffset = .zero
-                    })
-                    .offset(x: self.offset)
-
-                    .animation(.default, value: self.offset)
+                    .offset(x: x)
+                    .background(
+                        Color.black.opacity(x == 0 ? 0.5 : 0)
+                            .ignoresSafeArea(.all, edges: .vertical)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.7)) {
+                                    x = -width
+                                }
+                            }
+                    )
             }
-            
-//            .gesture(DragGesture(minimumDistance: 5)
-//                .onChanged { value in
-//                    if (self.offset < self.openOffset) {
-//                        self.offset = self.closeOffset + value.translation.width
-//                    }
-//                }
-//                .onEnded { value in
-//                    if (value.location.x > value.startLocation.x) {
-//                        self.offset = self.openOffset
-//                    }
-//                    else {
-//                        self.offset = self.closeOffset
-//                   }
-//                }
-//            )
-        }
+            .gesture(DragGesture(minimumDistance: 35)
+                // スワイプしている間の処理
+                .onChanged { value in
+                    withAnimation(.easeInOut(duration: 0.7)) {
+                        if value.location.x > value.startLocation.x {
+                            x = 0
+                        }
+                    }
+                }
+                // スワイプが完了した時の処理
+                .onEnded { value in
+                    withAnimation(.easeInOut(duration: 0.7)) {
+                        if x == 0 {
+                            if value.location.x < value.startLocation.x {
+                                x = -width
+                            }
+                        }
+                    }
+                }
+            )
     }
     
     private func deleteTask(offsets: IndexSet) {
-            withAnimation {
-                offsets.map { tasks[$0] }.forEach(viewContext.delete)
-    
-                do {
-                    try viewContext.save()
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                }
+        withAnimation {
+            offsets.map { tasks[$0] }.forEach(viewContext.delete)
+
+            do {
+                // データベースへ保存
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
-
+    }
 }
-
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
@@ -123,151 +113,21 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-struct HamburgerMenu: View {
-
-    @State var showSettingView = false
-    
-    var body: some View {
-        
-        NavigationView {
-            
-            VStack(alignment: .leading, spacing: 0) {
-                
-                VStack {
-                    
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, maxHeight: 5)
-                
-                Divider()
-                
-                VStack {
-                    
-                    Button {
-                        
-                    } label: {
-                        Label("全てのリスト", systemImage: "list.bullet.rectangle")
-                    }
-                }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 25)
-                
-                Divider()
-                
-                ScrollView (.vertical, showsIndicators: true) {
-                    
-                    VStack(alignment: .leading) {
-                        
-                        HStack {
-                            
-                            Image(systemName: "list.bullet")
-                                .foregroundColor(.primary.opacity(0.4))
-                            Text("リスト")
-                                .foregroundColor(.primary.opacity(0.4))
-                        }
-                        Divider()
-                        
-                        .padding()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 15)
-                    .padding(.horizontal, 10)
-                }
-                .frame(maxWidth: .infinity, maxHeight: 600)
-
-                VStack(alignment: .leading, spacing: 20) {
-                    
-                    Divider()
-                    
-                    TabButton(image: "Setting")
-
-                }
-            }
-            .padding(.horizontal, 20)
-            .frame(maxWidth: .infinity,maxHeight: .infinity, alignment: .leading)
-        }
-    }
-    
-    @ViewBuilder
-    func TabButton(image: String) -> some View {
-        
-        Button {
-            showSettingView.toggle()
-        } label: {
-            Image(image)
-               .resizable()
-               .renderingMode(.template)
-               .aspectRatio(contentMode: .fill)
-               .foregroundColor(.primary)
-               .frame(width: 25, height: 25)
-        }
-        .padding(.horizontal, 10)
-        .padding(.bottom, 0)
-        .sheet(isPresented: $showSettingView) {
-            SettingView()
-        }
-    }
-}
-
-struct KebabMenu: View {
-
-    @State var showEdit = false
-    @State var showAlert = false
-    
-    var body: some View {
-        
-        VStack  {
-            
-            Menu {
-                
-                Button {
-                    self.showEdit.toggle()
-                } label: {
-                    Label("リストを編集", systemImage: "pencil")
-                }
-                
-                Button {
-                    self.showAlert.toggle()
-                } label: {
-                    Label("リストを削除", systemImage: "trash")
-                }
-            } label: {
-                Image(systemName: "ellipsis")
-                    .rotationEffect(.degrees(90))
-            }
-        }
-        .sheet(isPresented: $showEdit) {
-            EditTaskView()
-        }
-        
-        .alert("このリストを削除しますか？", isPresented: $showAlert) {
-            Button("削除", role: .destructive) {
-                
-            }
-        } message: {
-           Text("この操作によりリストが削除されます。")
-        }
-    }
-}
-
 struct AddTaskButton: View {
-    
     @Environment(\.managedObjectContext) var viewContext
-    
     @State private var showAddTaskView = false
     
     var body: some View {
-
-            Button {
-                showAddTaskView.toggle()
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .padding()
-            }
-            .sheet(isPresented: $showAddTaskView) {
-                AddTaskView().environment(\.managedObjectContext, self.viewContext)
-            }
+        Button {
+            showAddTaskView.toggle()
+        } label: {
+            Image(systemName: "plus.circle.fill")
+                .resizable()
+                .frame(width: 80, height: 80)
+                .padding()
+        }
+        .sheet(isPresented: $showAddTaskView) {
+            AddTaskView().environment(\.managedObjectContext, self.viewContext)
+        }
     }
 }

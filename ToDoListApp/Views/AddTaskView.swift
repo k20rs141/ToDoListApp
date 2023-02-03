@@ -59,10 +59,11 @@ struct AddTaskView: View {
     
     func addTask() {
         if self.name != "" {
+            // 新規レコードの作成
             let task = Task(context: self.viewContext)
             task.name = self.name
             task.priority = self.priority
-            
+            // データベースへ保存
             do {
                 try self.viewContext.save()
             } catch {

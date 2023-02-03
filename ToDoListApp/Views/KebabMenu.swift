@@ -44,6 +44,7 @@ struct KebabMenu: View {
             offsets.map { tasks[$0] }.forEach(viewContext.delete)
 
             do {
+                // データベースへ保存
                 try viewContext.save()
             } catch {
                 let nsError = error as NSError
