@@ -88,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		662964D9298EA8D50093849B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				662964D0298BFCAD0093849B /* DarkModeSetting.swift */,
+				9F0B5595281AC9B100197784 /* Persistence.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		9F0B5580281AC9A900197784 = {
 			isa = PBXGroup;
 			children = (
@@ -113,8 +122,7 @@
 			children = (
 				662964D2298BFEDD0093849B /* Info.plist */,
 				9F0B558C281AC9A900197784 /* ToDoListAppApp.swift */,
-				662964D0298BFCAD0093849B /* DarkModeSetting.swift */,
-				9F0B5595281AC9B100197784 /* Persistence.swift */,
+				662964D9298EA8D50093849B /* Model */,
 				9F0B55BD281D5F1E00197784 /* Views */,
 				9F0B5597281AC9B100197784 /* ToDoListApp.xcdatamodeld */,
 				9F0B5590281AC9B100197784 /* Assets.xcassets */,
@@ -463,6 +471,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TODO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -494,6 +504,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TODO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
